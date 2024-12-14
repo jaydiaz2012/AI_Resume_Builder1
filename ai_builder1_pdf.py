@@ -1,4 +1,5 @@
 import streamlit as st
+import tempfile
 import os
 import io
 from io import BytesIO
@@ -129,20 +130,24 @@ if st.button("Generate Resume"):
         "skills": skills,
         "references": references
     }
+   
+    # Create a temporary file
+    with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as temp_file:
+        pdf = generate_resume(user_data, image_path)
+        temp_path = temp_file.name
+        pdf.output(temp_path)  # Save the PDF to the temp file
 
-    pdf = generate_resume(user_data, image_path)
-    pdf_buffer = BytesIO()
-    pdf.output(pdf_buffer)
-    pdf_buffer.seek(0)
+    # Read the file to allow downloading
+    with open(temp_path, "rb") as pdf_file:
+        pdf_data = pdf_file.read()
 
-    st.header("Your Resume")
+    # Display the download button
     st.download_button(
         label="Download Resume as PDF",
-        data=pdf_buffer,
+        data=pdf_data,
         file_name="resume.pdf",
         mime="application/pdf"
     )
 
-    # Cleanup temporary image file
-    if image_path and os.path.exists(image_path):
-        os.remove(image_path)
+    # Clean up the temporary file
+    os.remove(temp_path)
