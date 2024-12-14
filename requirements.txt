@@ -2,4 +2,7 @@ streamlit
 streamlit_option_menu
 streamlit_extras
 fpdf
+fpdf2
 pillow
+os
+io
