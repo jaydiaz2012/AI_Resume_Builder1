@@ -112,9 +112,10 @@ number_of_references = st.number_input("Number of references:", min_value=1, ste
 for i in range(number_of_references):
     st.subheader(f"Reference {i+1}")
     ref_name = st.text_input(f"Name of Reference {i+1}")
+    ref_rel = st.text_input(f"Relation to Reference {i+1}")
     ref_contact = st.text_input(f"Contact Number of Reference {i+1}")
     ref_email = st.text_input(f"Email of Reference {i+1}")
-    reference_entries.append(f"{ref_name}, {ref_contact}, {ref_email}")
+    reference_entries.append(f"{ref_name}, {ref_rel}, {ref_contact}, {ref_email}")
 references = "\n".join(reference_entries)
 
 # Generate Resume
